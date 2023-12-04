@@ -25,5 +25,5 @@ jobs:
         python -m pip install --upgrade .
     - name: Run entry points
       run: |
-        yaqd-pololu-tic --version
-        yaqd-pololu-tic --help
+        yaqd-pololu-ticcmd --version
+        yaqd-pololu-ticcmd --help
