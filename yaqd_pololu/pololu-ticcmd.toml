@@ -1,0 +1,24 @@
+protocol = "pololu-ticcmd"
+doc = "Pololu Tic control through the ticcmd CLI (USB connection)"
+traits = ["is-daemon", "has-position", "has-limits", "has-transformed-position"]
+
+[links]
+source = "https://github.com/yaq-project/yaqd-pololu"
+bugtracker = "https://github.com/yaq-project/yaqd-pololu/-/issues"
+
+[installation]
+PyPI = "https://pypi.org/project/yaqd-pololu"
+
+[config]
+units.type = "string"
+units.default = "step"
+steps_per_unit.type = "int"
+steps_per_unit.default = 1
+
+[state]
+
+[messages]
+
+[messages.get_status]
+# how does this work for e.g. get_config?
+response = "string"
