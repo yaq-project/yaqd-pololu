@@ -62,4 +62,4 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, HasPosition, IsDaemon):
         return yaml.safe_load(self.ticcmd("-s", "--full"))
 
     def get_status(self) -> str:
-        yaml.dump(self._get_status())
+        return yaml.dump(self._get_status())
