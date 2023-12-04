@@ -6,13 +6,14 @@ import asyncio
 
 from yaqd_core import IsDaemon, HasPosition, HasLimits, HasTransformedPosition
 
+
 class PololuTicCMD(HasTransformedPosition, HasLimits, HasPosition, IsDaemon):
     _kind = "pololu-ticcmd"
 
     def __init__(self, name, config, config_filepath):
         super().__init__(name, config, config_filepath)
-        self.cmd = ['ticcmd']
-        self.cmd += [] if config["serial"] is None else ['-d', config["serial"]]
+        self.cmd = ["ticcmd"]
+        self.cmd += [] if config["serial"] is None else ["-d", config["serial"]]
 
     def ticcmd(self, *args):
         try:
@@ -59,6 +60,6 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, HasPosition, IsDaemon):
 
     def _get_status(self):
         return yaml.safe_load(self.ticcmd("-s", "--full"))
-    
-    def get_status(self)->str:
+
+    def get_status(self) -> str:
         yaml.dump(self._get_status())
