@@ -1,7 +1,7 @@
 __all__ = ["PololuTicCMD"]
 
 import subprocess
-import yaml
+import yaml  # type: ignore
 import asyncio
 
 from yaqd_core import IsDaemon, HasPosition, HasLimits, HasTransformedPosition
