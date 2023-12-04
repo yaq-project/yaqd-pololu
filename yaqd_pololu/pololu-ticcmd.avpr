@@ -93,11 +93,19 @@
         }
     },
     "doc": "Pololu Tic control through the ticcmd CLI (USB connection)",
+    "hardware": [
+        "pololu:t500",
+        "pololu:ti34",
+        "pololu:t825",
+        "pololu:t249",
+        "pololu:36v4"
+    ],
     "installation": {
         "PyPI": "https://pypi.org/project/yaqd-pololu"
     },
     "links": {
         "bugtracker": "https://github.com/yaq-project/yaqd-pololu/-/issues",
+        "manufacturer": "https://www.pololu.com/",
         "source": "https://github.com/yaq-project/yaqd-pololu"
     },
     "messages": {
