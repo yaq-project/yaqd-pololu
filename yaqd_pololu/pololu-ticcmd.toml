@@ -1,8 +1,10 @@
 protocol = "pololu-ticcmd"
 doc = "Pololu Tic control through the ticcmd CLI (USB connection)"
 traits = ["is-daemon", "has-position", "has-limits", "has-transformed-position"]
+hardware = ["pololu:t500", "pololu:ti34", "pololu:t825", "pololu:t249", "pololu:36v4"]
 
 [links]
+manufacturer = "https://www.pololu.com/"
 source = "https://github.com/yaq-project/yaqd-pololu"
 bugtracker = "https://github.com/yaq-project/yaqd-pololu/-/issues"
 
@@ -20,5 +22,4 @@ steps_per_unit.default = 1
 [messages]
 
 [messages.get_status]
-# how does this work for e.g. get_config?
 response = "string"
