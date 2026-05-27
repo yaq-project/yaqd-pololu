@@ -1,6 +1,6 @@
 protocol = "pololu-ticcmd"
 doc = "Pololu Tic control through the ticcmd CLI (USB connection)"
-traits = ["is-daemon", "has-position", "has-limits", "has-transformed-position"]
+traits = ["is-daemon", "has-position", "has-limits", "is-homeable", "has-transformed-position"]
 hardware = ["pololu:t500", "pololu:t834", "pololu:t825", "pololu:t249", "pololu:36v4"]
 
 [links]
@@ -11,11 +11,33 @@ bugtracker = "https://github.com/yaq-project/yaqd-pololu/-/issues"
 [installation]
 PyPI = "https://pypi.org/project/yaqd-pololu"
 
+[[types]]
+type = "enum"
+name = "dir"
+symbols = ["fwd", "rev"]
+
 [config]
-units.type = "string"
-units.default = "step"
-steps_per_unit.type = "int"
-steps_per_unit.default = 1
+steps_per_unit.type = "float"
+steps_per_unit.default = 1.0
+
+is_homeable.type = "boolean"
+is_homeable.default = false
+is_homeable.doc = "Determines whether the is-homeable trait is used."
+
+home_dir.type = "dir"
+home_dir.doc = "The direction of travel for homing."
+
+unit.type = "string"
+unit.default = "step"
+unit.doc = "unit of motion"
+
+backlash.type = "float"
+backlash.doc = "units to travel for backlash correction"
+backlash.default = 0.0
+
+backlash_dir.type = "dir"
+backlash_dir.doc = "The travel direction to which backlash is applied.  e.g. if forward, destinations in the forward direction will overstep the destination by 'backlash' steps before walking back."
+backlash_dir.default = "fwd"
 
 [state]
 
