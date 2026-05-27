@@ -1,0 +1,31 @@
+[newport_tra25_ppd]
+port = 32000
+serial = ""  # tic identifier
+steps_per_unit = 9.765625e-5  # 1 / (20 * 256 * 2) 
+unit = "mm"  # screw has 1 mm pitch
+hardware_limits = [0, 25]
+
+is_homeable = true
+home_dir = "fwd"  # TBD
+backlash = 20  # TODO: figure out the backlash amount
+
+[nd-wheel]
+port = 32001
+serial = ""  # TODO: tic identifier
+steps_per_unit = 0.45  # 400 steps/rev, using half steps
+unit = "deg"
+
+is_homeable = true
+
+[thorlabs_xr25]
+# a OEM stepper motor coupled to the screw drive
+port = 32002
+serial = ""
+steps_per_unit = 0.00125
+units = "mm"
+hardware_limits = [0, 25]
+
+is_homeable = false
+home_dir = "fwd"  # TBD
+backlash = 20  # TODO: figure out the backlash amount
+backlash_dir = "fwd"
