@@ -54,7 +54,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
         self.ticcmd("--exit-safe-start", "-p", str(int(position)))
 
     def home(self):
-        if (not self._config["is_homeable"]):
+        if not self._config["is_homeable"]:
             msg = "this daemon is not configured for homing"
             self.logger.error(msg)
             raise NotImplementedError(msg)
@@ -80,4 +80,3 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
 
     def close(self):
         self.ticcmd("deenergize")
-
