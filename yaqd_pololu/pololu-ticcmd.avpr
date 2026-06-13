@@ -2,13 +2,8 @@
     "config": {
         "backlash": {
             "default": 0.0,
-            "doc": "units to travel for backlash correction",
+            "doc": "direction and distance (in steps) to travel for backlash correction.  use negative value for backlash in the reverse direction.",
             "type": "float"
-        },
-        "backlash_dir": {
-            "default": "fwd",
-            "doc": "The travel direction to which backlash is applied.  e.g. if forward, destinations in the forward direction will overstep the destination by 'backlash' steps before walking back.",
-            "type": "dir"
         },
         "enable": {
             "default": true,

@@ -34,7 +34,9 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
             status = self._get_status()
             self._state["position"] = int(status["Current position"])
             self._state["destination"] = int(status["Acting target position"])
-            while (self._state["position"] != self._state["destination"]) and not self._awaiting_backlash:
+            while (
+                self._state["position"] != self._state["destination"]
+            ) and not self._awaiting_backlash:
                 await asyncio.sleep(0.2)
                 self.ticcmd("--reset-command-timeout")
                 status = self._get_status()
@@ -53,7 +55,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
 
     def _set_position(self, destination):
         self.ticcmd("--resume")
-        if ((destination - self.state["position"]) * self.backlash > 0):
+        if (destination - self.state["position"]) * self.backlash > 0:
             destination += self.backlash
             self._awaiting_backlash = True
             asyncio.get_running_loop.create_task(self._correct_backlash())
@@ -63,9 +65,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
         """if backlash was applied, correct the backlash after movement"""
         await self._not_busy_sig.wait()
         self.ticcmd(
-            "--exit-safe-start",
-            "-p",
-            str(int(self._state["destination"] - self.backlash))
+            "--exit-safe-start", "-p", str(int(self._state["destination"] - self.backlash))
         )
         self._awaiting_backlash = False
 
