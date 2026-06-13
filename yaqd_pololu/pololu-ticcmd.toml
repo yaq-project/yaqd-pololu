@@ -32,12 +32,8 @@ unit.default = "step"
 unit.doc = "unit of motion"
 
 backlash.type = "float"
-backlash.doc = "units to travel for backlash correction"
+backlash.doc = "direction and distance (in steps) to travel for backlash correction.  use negative value for backlash in the reverse direction."
 backlash.default = 0.0
-
-backlash_dir.type = "dir"
-backlash_dir.doc = "The travel direction to which backlash is applied.  e.g. if forward, destinations in the forward direction will overstep the destination by 'backlash' steps before walking back."
-backlash_dir.default = "fwd"
 
 [state]
 

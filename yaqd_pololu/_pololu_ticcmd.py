@@ -15,6 +15,8 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
         self.cmd = ["ticcmd"]
         if config["serial"]:
             self.cmd += ["-d", config["serial"]]
+        self._awaiting_backlash = False
+        self.backlash = self._config["backlash"]
 
     def ticcmd(self, *args):
         try:
@@ -32,7 +34,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
             status = self._get_status()
             self._state["position"] = int(status["Current position"])
             self._state["destination"] = int(status["Acting target position"])
-            while self._state["position"] != self._state["destination"]:
+            while (self._state["position"] != self._state["destination"]) and not self._awaiting_backlash:
                 await asyncio.sleep(0.2)
                 self.ticcmd("--reset-command-timeout")
                 status = self._get_status()
@@ -49,9 +51,23 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
         # units to steps
         return transformed_position * self._config["steps_per_unit"]
 
-    def _set_position(self, position):
+    def _set_position(self, destination):
         self.ticcmd("--resume")
-        self.ticcmd("--exit-safe-start", "-p", str(int(position)))
+        if ((destination - self.state["position"]) * self.backlash > 0):
+            destination += self.backlash
+            self._awaiting_backlash = True
+            asyncio.get_running_loop.create_task(self._correct_backlash())
+        self.ticcmd("--exit-safe-start", "-p", str(int(destination)))
+
+    async def _correct_backlash(self):
+        """if backlash was applied, correct the backlash after movement"""
+        await self._not_busy_sig.wait()
+        self.ticcmd(
+            "--exit-safe-start",
+            "-p",
+            str(int(self._state["destination"] - self.backlash))
+        )
+        self._awaiting_backlash = False
 
     def home(self):
         if not self._config["is_homeable"]:
