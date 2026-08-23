@@ -55,7 +55,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
 
     def _set_position(self, destination):
         self.ticcmd("--resume")
-        if (destination - self.state["position"]) * self.backlash > 0:
+        if (destination - self._state["position"]) * self.backlash > 0:
             destination += self.backlash
             self._awaiting_backlash = True
             asyncio.get_running_loop.create_task(self._correct_backlash())
