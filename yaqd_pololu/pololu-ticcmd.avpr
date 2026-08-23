@@ -1,9 +1,23 @@
 {
     "config": {
+        "backlash": {
+            "default": 0.0,
+            "doc": "direction and distance (in steps) to travel for backlash correction.  use negative value for backlash in the reverse direction.",
+            "type": "float"
+        },
         "enable": {
             "default": true,
             "doc": "Disable this daemon. The kind entry-point will not attempt to start this daemon.",
             "origin": "is-daemon",
+            "type": "boolean"
+        },
+        "home_dir": {
+            "doc": "The direction of travel for homing.",
+            "type": "dir"
+        },
+        "is_homeable": {
+            "default": false,
+            "doc": "Determines whether the is-homeable trait is used.",
             "type": "boolean"
         },
         "limits": {
@@ -94,11 +108,12 @@
             ]
         },
         "steps_per_unit": {
-            "default": 1,
-            "type": "int"
+            "default": 1.0,
+            "type": "float"
         },
-        "units": {
+        "unit": {
             "default": "step",
+            "doc": "unit of motion",
             "type": "string"
         }
     },
@@ -212,6 +227,12 @@
                 "null",
                 "string"
             ]
+        },
+        "home": {
+            "doc": "Initiates the homing procedure.\nThe daemon will report as busy during the homing procedure.\n After the homing procedure is complete, the daemon will return to the current destination.\n",
+            "origin": "is-homeable",
+            "request": [],
+            "response": "null"
         },
         "id": {
             "doc": "JSON object with information to identify the daemon, including name, kind, make, model, serial.\n",
@@ -405,9 +426,18 @@
         "has-limits",
         "has-position",
         "has-transformed-position",
-        "is-daemon"
+        "is-daemon",
+        "is-homeable"
     ],
     "types": [
+        {
+            "name": "dir",
+            "symbols": [
+                "fwd",
+                "rev"
+            ],
+            "type": "enum"
+        },
         {
             "fields": [
                 {
