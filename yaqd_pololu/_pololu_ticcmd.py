@@ -31,7 +31,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
         """Continually monitor and update the current daemon state."""
         self._state["hw_limits"] = [-2147483648, 2147483647]
         while True:
-            status = self._get_status()
+            status = await self._get_status()
             self._state["position"] = int(status["Current position"])
             self._state["destination"] = int(status["Acting target position"])
             while (
@@ -39,7 +39,7 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
             ) and not self._awaiting_backlash:
                 await asyncio.sleep(0.2)
                 self.ticcmd("--reset-command-timeout")
-                status = self._get_status()
+                status = await self._get_status()
                 self._state["position"] = int(status["Current position"])
                 self._state["destination"] = int(status["Acting target position"])
             self._busy = False
@@ -91,8 +91,15 @@ class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, I
     def _get_status(self):
         return yaml.safe_load(self.ticcmd("-s", "--full"))
 
-    def get_status(self) -> str:
-        return yaml.dump(self._get_status())
+    async def get_status(self) -> str:
+        while True:
+            try:
+                out = yaml.dump(self._get_status())
+                break
+            except Exception as e:  # if comms break, we keep trying
+                self.logger.error(e, exc_info=True)
+                await asyncio.sleep(5)
+        return out
 
     def close(self):
         self.ticcmd("deenergize")
