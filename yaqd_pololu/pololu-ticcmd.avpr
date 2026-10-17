@@ -2,7 +2,7 @@
     "config": {
         "backlash": {
             "default": 0.0,
-            "doc": "direction and distance (in steps) to travel for backlash correction.  use negative value for backlash in the reverse direction.",
+            "doc": "The direction and distance (in steps) to travel for backlash correction.  use negative value for backlash in the reverse direction.",
             "type": "float"
         },
         "enable": {
@@ -26,9 +26,8 @@
                 Infinity
             ],
             "doc": "Configuration limits are strictly optional.",
-            "items": "double",
             "origin": "has-limits",
-            "type": "array"
+            "type": "haslimits.limits"
         },
         "log_level": {
             "default": "info",
@@ -77,21 +76,14 @@
                 Infinity
             ],
             "doc": "Bounds of motion specified in native coordinates.  To specify bounds in transformed coordinates, use `limits`.",
-            "items": "double",
             "origin": "has-transformed-position",
-            "type": "array"
+            "type": "haslimits.limits"
         },
         "out_of_limits": {
             "default": "closest",
             "doc": "Control behavior of daemon when set_position is given a value outside of limits.",
-            "name": "out_of_limits",
             "origin": "has-limits",
-            "symbols": [
-                "closest",
-                "ignore",
-                "error"
-            ],
-            "type": "enum"
+            "type": "haslimits.out_of_limits"
         },
         "port": {
             "doc": "TCP port for daemon to occupy.",
@@ -162,10 +154,7 @@
             "doc": "Get daemon limits.Limits will be the <a href='https://en.wikipedia.org/wiki/Intersection_(set_theory)'>intersection</a> of config limits and driver limits (when appliciable).",
             "origin": "has-limits",
             "request": [],
-            "response": {
-                "items": "double",
-                "type": "array"
-            }
+            "response": "haslimits.limits"
         },
         "get_native_destination": {
             "doc": "Get the destination in native coordinates.",
@@ -406,9 +395,8 @@
                 -Infinity,
                 Infinity
             ],
-            "items": "double",
             "origin": "has-limits",
-            "type": "array"
+            "type": "haslimits.limits"
         },
         "native_reference_position": {
             "default": 0.0,
@@ -430,6 +418,34 @@
         "is-homeable"
     ],
     "types": [
+        {
+            "items": "double",
+            "name": "haslimits.limits",
+            "type": "array"
+        },
+        {
+            "name": "haslimits.out_of_limits",
+            "symbols": [
+                "closest",
+                "ignore",
+                "error"
+            ],
+            "type": "enum"
+        },
+        {
+            "items": "double",
+            "name": "haslimits.limits",
+            "type": "array"
+        },
+        {
+            "name": "haslimits.out_of_limits",
+            "symbols": [
+                "closest",
+                "ignore",
+                "error"
+            ],
+            "type": "enum"
+        },
         {
             "name": "dir",
             "symbols": [
