@@ -4,10 +4,10 @@ import subprocess
 import yaml  # type: ignore
 import asyncio
 
-from yaqd_core import IsDaemon, HasPosition, IsHomeable, HasLimits, HasTransformedPosition
+from yaqd_core import IsDaemon, HasPosition, IsHomeable, HasLimits, IsDiscrete, HasTransformedPosition
 
 
-class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, HasPosition, IsDaemon):
+class PololuTicCMD(HasTransformedPosition, HasLimits, IsHomeable, IsDiscrete, HasPosition, IsDaemon):
     _kind = "pololu-ticcmd"
 
     def __init__(self, name, config, config_filepath):
