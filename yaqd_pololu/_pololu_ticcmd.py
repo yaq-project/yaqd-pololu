@@ -40,7 +40,7 @@ class PololuTicCMD(
         """Continually monitor and update the current daemon state."""
         self._state["hw_limits"] = [-2147483648, 2147483647]
         while True:
-            status = await self._get_status()
+            status = await self.get_status()
             self._state["position"] = int(status["Current position"])
             self._state["destination"] = int(status["Acting target position"])
             while (
@@ -48,7 +48,7 @@ class PololuTicCMD(
             ) and not self._awaiting_backlash:
                 await asyncio.sleep(0.2)
                 self.ticcmd("--reset-command-timeout")
-                status = await self._get_status()
+                status = await self.get_status()
                 self._state["position"] = int(status["Current position"])
                 self._state["destination"] = int(status["Acting target position"])
             self._busy = False
