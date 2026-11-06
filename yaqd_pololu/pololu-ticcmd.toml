@@ -1,6 +1,6 @@
 protocol = "pololu-ticcmd"
 doc = "Pololu Tic control through the ticcmd CLI (USB connection)"
-traits = ["is-daemon", "has-position", "has-limits", "is-homeable", "has-transformed-position"]
+traits = ["is-daemon", "has-position", "has-limits", "is-homeable", "is-discrete", "has-transformed-position"]
 hardware = ["pololu:t500", "pololu:t834", "pololu:t825", "pololu:t249", "pololu:36v4"]
 
 [links]
