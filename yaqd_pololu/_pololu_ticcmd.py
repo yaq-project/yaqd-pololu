@@ -108,6 +108,7 @@ class PololuTicCMD(
             except Exception as e:  # if comms break, we keep trying
                 self.logger.error(e, exc_info=True)
                 await asyncio.sleep(5)
+        await asyncio.sleep(0)
         return out
 
     def close(self):
