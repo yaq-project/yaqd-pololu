@@ -15,6 +15,15 @@
             "doc": "The direction of travel for homing.",
             "type": "dir"
         },
+        "identifiers": {
+            "default": {},
+            "doc": "Position identifiers",
+            "origin": "is-discrete",
+            "type": {
+                "type": "map",
+                "values": "double"
+            }
+        },
         "is_homeable": {
             "default": false,
             "doc": "Determines whether the is-homeable trait is used.",
@@ -158,6 +167,15 @@
             "request": [],
             "response": "double"
         },
+        "get_identifier": {
+            "doc": "Get current identifier string. Current identifier may be None.",
+            "origin": "is-discrete",
+            "request": [],
+            "response": [
+                "null",
+                "string"
+            ]
+        },
         "get_limits": {
             "doc": "Get daemon limits.Limits will be the <a href='https://en.wikipedia.org/wiki/Intersection_(set_theory)'>intersection</a> of config limits and driver limits (when appliciable).",
             "origin": "has-limits",
@@ -209,6 +227,24 @@
             "request": [],
             "response": "double"
         },
+        "get_position_identifier_options": {
+            "doc": "Get position identifier names. Identifiers may not change at runtime.",
+            "origin": "is-discrete",
+            "request": [],
+            "response": {
+                "items": "string",
+                "type": "array"
+            }
+        },
+        "get_position_identifiers": {
+            "doc": "Get position identifiers. Identifiers may not change at runtime.",
+            "origin": "is-discrete",
+            "request": [],
+            "response": {
+                "type": "map",
+                "values": "double"
+            }
+        },
         "get_state": {
             "doc": "Get version of the running daemon",
             "origin": "is-daemon",
@@ -256,6 +292,17 @@
                 }
             ],
             "response": "boolean"
+        },
+        "set_identifier": {
+            "doc": "Set using an identifier. Returns new destination.",
+            "origin": "is-discrete",
+            "request": [
+                {
+                    "name": "identifier",
+                    "type": "string"
+                }
+            ],
+            "response": "double"
         },
         "set_native_position": {
             "doc": "Set the current position in native coordinates.",
@@ -391,6 +438,17 @@
             "setter": null,
             "type": "double",
             "units_getter": "get_units"
+        },
+        "position_identifier": {
+            "control_kind": "hinted",
+            "dynamic": true,
+            "getter": "get_identifier",
+            "limits_getter": null,
+            "options_getter": "get_position_identifier_options",
+            "record_kind": "data",
+            "setter": "set_identifier",
+            "type": "string",
+            "units_getter": null
         }
     },
     "protocol": "pololu-ticcmd",
@@ -420,6 +478,15 @@
             "default": NaN,
             "origin": "has-position",
             "type": "double"
+        },
+        "position_identifier": {
+            "default": null,
+            "doc": "Current position identifier.",
+            "origin": "is-discrete",
+            "type": [
+                "null",
+                "string"
+            ]
         }
     },
     "traits": [
@@ -427,6 +494,7 @@
         "has-position",
         "has-transformed-position",
         "is-daemon",
+        "is-discrete",
         "is-homeable"
     ],
     "types": [
