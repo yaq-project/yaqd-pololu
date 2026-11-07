@@ -1,8 +1,9 @@
 name: run entry points
 
 on:
-  push:
   pull_request:
+    types: [opened, reopened]
+  push:
 
 jobs:
   build:
@@ -10,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v7
