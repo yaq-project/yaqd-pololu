@@ -103,7 +103,7 @@ class PololuTicCMD(
     async def get_status(self) -> str:
         while True:
             try:
-                out = yaml.dump(self._get_status())
+                out = self._get_status()
                 break
             except Exception as e:  # if comms break, we keep trying
                 self.logger.error(e, exc_info=True)
